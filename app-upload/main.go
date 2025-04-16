@@ -56,4 +56,25 @@ func uploadFiles(w http.ResponseWriter, r *http.Request) {
 
 func uploadOneFile(w http.ResponseWriter, r *http.Request) {
 
+	if r.Method != http.MethodPost {
+		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+		return
+	}
+
+	t := toolkit.Tools{
+		AllowedFileTypes: []string{"image/jpeg", "image/png", "image/gif", "image/svg+xml"},
+		MaxFileSize:      1024 * 1024 * 1024,
+	}
+
+	file, err := t.UploadOneFile(r, "./upload-one")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	out := fmt.Sprintf("Uploaded file: %s (NewFileName: %s)\n", file.OriginalFileName, file.NewFileName)
+
+	_, _ = w.Write([]byte(out))
+	w.WriteHeader(http.StatusOK)
+
 }

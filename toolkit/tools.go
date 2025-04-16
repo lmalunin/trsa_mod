@@ -37,6 +37,20 @@ type UploadedFile struct {
 	FileSize         int64
 }
 
+func (t *Tools) UploadOneFile(r *http.Request, uploadDir string, rename ...bool) (*UploadedFile, error) {
+	renameFile := true
+	if len(rename) > 0 {
+		renameFile = rename[0]
+	}
+
+	files, err := t.UploadedFiles(r, uploadDir, renameFile)
+	if err != nil {
+		return nil, err
+	}
+
+	return files[0], nil
+}
+
 func (t *Tools) UploadedFiles(r *http.Request, uploadDir string, rename ...bool) ([]*UploadedFile, error) {
 	renameFile := true
 	if len(rename) > 0 {
@@ -99,6 +113,8 @@ func (t *Tools) UploadedFiles(r *http.Request, uploadDir string, rename ...bool)
 				} else {
 					uploadedFile.NewFileName = hdr.Filename
 				}
+
+				uploadedFile.OriginalFileName = hdr.Filename
 
 				var outfile *os.File
 				defer outfile.Close()

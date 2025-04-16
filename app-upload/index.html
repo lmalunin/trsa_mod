@@ -5,10 +5,18 @@
 </head>
 <body>
     <h1>Upload Files</h1>
+    <h2>Multiple Files Upload</h2>
     <form action="http://localhost:8080/upload" method="post" enctype="multipart/form-data">
         <input type="file" name="file" multiple>
         <br><br>
-        <input type="submit" value="Upload">
+        <input type="submit" value="Upload Multiple Files">
+    </form>
+
+    <h2>Single File Upload</h2>
+    <form action="http://localhost:8080/upload-one" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <br><br>
+        <input type="submit" value="Upload Single File">
     </form>
 </body>
 </html>
