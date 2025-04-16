@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "toolkit"
+		},
+		{
+			"path": "app-upload"
 		}
 	],
 	"settings": {}
